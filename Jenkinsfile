@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     sh "docker login 192.168.100.12 -u admin -p Unipoint11"
-                    sh "docker push 192.168.100.12/sellers-utils/rabbitmq:v1.$BUILD_NUMBER
+                    sh "docker push 192.168.100.12/sellers-utils/rabbitmq:latest
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    sh "docker build --no-cache -f Dockerfile -t 192.168.100.12/sellers-utils/rabbitmq:v1.$BUILD_NUMBER ."
+                    sh "docker build --no-cache -f Dockerfile -t 192.168.100.12/sellers-utils/rabbitmq:latest ."
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                          sh "/usr/local/bin/kubectl --kubeconfig=/home/jenkins/acloud-client.conf apply -f rabbitmq.yaml"
-                         sh "/usr/local/bin/kubectl --kubeconfig=/home/jenkins/acloud-client.conf set image -n sellers-utills deployment/rabbitmq rabbitmq=192.168.100.12/sellers-utills/rabbitmq:v1.$BUILD_NUMBER"
+                         sh "/usr/local/bin/kubectl --kubeconfig=/home/jenkins/acloud-client.conf set image -n sellers-utills deployment/rabbitmq rabbitmq=192.168.100.12/sellers-utills/rabbitmq:latest"
                 }
             }
         }
